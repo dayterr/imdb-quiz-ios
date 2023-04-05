@@ -8,6 +8,8 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate, 
 
     @IBOutlet private var counterLabel: UILabel!
     
+    @IBOutlet private weak var yesButton: UIButton!
+    @IBOutlet private weak var noButton: UIButton!
     
     private var currentQuestionIndex: Int = 0
     private var correctAnswers: Int = 0
@@ -57,10 +59,10 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate, 
     
     func showEndAlert() {
         let msg = """
-        Ваш результат: \(self.correctAnswers)/\(self.questionsAmount)\
-        \nКоличество сыгранных квизов: \(String(describing: statisticsService!.gamesCount))
-        \nРекорд: \(String(describing: statisticsService!.bestGame.correct))/\(String(describing: statisticsService!.bestGame.total)) (\(String(describing: statisticsService!.bestGame.date.dateTimeString)))
-        \nСредняя точность: \(String(format: "%.2f", statisticsService!.totalAccuracy))%
+        Ваш результат: \(self.correctAnswers)/\(self.questionsAmount)
+        Количество сыгранных квизов: \(String(describing: statisticsService!.gamesCount))
+        Рекорд: \(String(describing: statisticsService!.bestGame.correct))/\(String(describing: statisticsService!.bestGame.total)) (\(String(describing: statisticsService!.bestGame.date.dateTimeString)))
+        Средняя точность: \(String(format: "%.2f", statisticsService!.totalAccuracy))%
         """
         
         let alertModel = AlertModel(
@@ -99,12 +101,19 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate, 
             self.correctAnswers += 1
         }
         
+        self.yesButton.isEnabled = false
+        self.noButton.isEnabled = false
+        
         imageView.layer.masksToBounds = true
         imageView.layer.borderWidth = 8
         imageView.layer.borderColor = isCorrect ? UIColor.ypGreen.cgColor : UIColor.ypRed.cgColor
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                 self.imageView.layer.borderWidth = 0
+            
+                self.yesButton.isEnabled = true
+                self.noButton.isEnabled = true
+            
                 self.showNextQuestionOrResults()
         }
     }
