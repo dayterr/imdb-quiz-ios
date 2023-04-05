@@ -10,10 +10,10 @@ import UIKit
 
 class ResultAlertPresenter: ResultAlertPresenterProtocol {
     
-    weak var alertDelegate: ResultAlertPresenterDelegate?
+    weak var controller: UIViewController?
     
-    init(alertDelegate: ResultAlertPresenterDelegate) {
-        self.alertDelegate = alertDelegate
+    init(controller: UIViewController) {
+        self.controller = controller
     }
     
     internal func createAlert(alertModel: AlertModel) {
@@ -32,8 +32,7 @@ class ResultAlertPresenter: ResultAlertPresenterProtocol {
         
         alert.addAction(action)
         
-        self.alertDelegate?.showAlert(alert: alert)
-        
+        self.controller?.present(alert, animated: true)
     }
 }
 

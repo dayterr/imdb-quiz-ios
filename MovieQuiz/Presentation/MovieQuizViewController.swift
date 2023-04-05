@@ -1,6 +1,6 @@
 import UIKit
 
-final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate, ResultAlertPresenterDelegate {
+final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     // MARK: - Lifecycle
     
     @IBOutlet private var imageView: UIImageView!
@@ -75,7 +75,7 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate, 
                 self?.correctAnswers = 0
             })
         
-        alertPresenter = ResultAlertPresenter(alertDelegate: self)
+        alertPresenter = ResultAlertPresenter(controller: self)
         alertPresenter?.createAlert(alertModel: alertModel)
     }
     

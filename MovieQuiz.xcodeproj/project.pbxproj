@@ -27,7 +27,6 @@
 		D4F19D4E29DA2D6B0056833D /* AlertModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F19D4D29DA2D6B0056833D /* AlertModel.swift */; };
 		D4F19D5A29DAED510056833D /* ResultAlertPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F19D5929DAED510056833D /* ResultAlertPresenter.swift */; };
 		D4F19D5C29DAED7C0056833D /* ResultAlertPresenterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F19D5B29DAED7C0056833D /* ResultAlertPresenterProtocol.swift */; };
-		D4F19D5E29DAEDA10056833D /* ResultAlertPresenterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F19D5D29DAEDA10056833D /* ResultAlertPresenterDelegate.swift */; };
 		D4F19D6029DAEEDC0056833D /* StatisticService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F19D5F29DAEEDC0056833D /* StatisticService.swift */; };
 		D4F19D6229DAEF5E0056833D /* GameRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F19D6129DAEF5E0056833D /* GameRecord.swift */; };
 /* End PBXBuildFile section */
@@ -55,7 +54,6 @@
 		D4F19D4D29DA2D6B0056833D /* AlertModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertModel.swift; sourceTree = "<group>"; };
 		D4F19D5929DAED510056833D /* ResultAlertPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultAlertPresenter.swift; sourceTree = "<group>"; };
 		D4F19D5B29DAED7C0056833D /* ResultAlertPresenterProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultAlertPresenterProtocol.swift; sourceTree = "<group>"; };
-		D4F19D5D29DAEDA10056833D /* ResultAlertPresenterDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultAlertPresenterDelegate.swift; sourceTree = "<group>"; };
 		D4F19D5F29DAEEDC0056833D /* StatisticService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticService.swift; sourceTree = "<group>"; };
 		D4F19D6129DAEF5E0056833D /* GameRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameRecord.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -148,7 +146,6 @@
 				D4F19D4929DA1DC40056833D /* QuestionFactoryProtocol.swift */,
 				D4F19D4B29DA297B0056833D /* QuestionFactoryDelegate.swift */,
 				D4F19D5B29DAED7C0056833D /* ResultAlertPresenterProtocol.swift */,
-				D4F19D5D29DAEDA10056833D /* ResultAlertPresenterDelegate.swift */,
 				D4F19D5F29DAEEDC0056833D /* StatisticService.swift */,
 			);
 			path = Services;
@@ -264,7 +261,6 @@
 			files = (
 				AD5EE5DE284D7887003966EF /* UIColor+Extensions.swift in Sources */,
 				D4F19D6229DAEF5E0056833D /* GameRecord.swift in Sources */,
-				D4F19D5E29DAEDA10056833D /* ResultAlertPresenterDelegate.swift in Sources */,
 				D4F19D4E29DA2D6B0056833D /* AlertModel.swift in Sources */,
 				D4F19D5C29DAED7C0056833D /* ResultAlertPresenterProtocol.swift in Sources */,
 				AD7AFA552836189F00399704 /* Array+Extensions.swift in Sources */,
