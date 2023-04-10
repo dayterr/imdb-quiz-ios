@@ -115,17 +115,23 @@
                                     </stackView>
                                 </subviews>
                             </stackView>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="1cZ-8S-sGe">
+                                <rect key="frame" x="197" y="438" width="20" height="20"/>
+                            </activityIndicatorView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="1cZ-8S-sGe" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="PM4-cx-9ez"/>
                             <constraint firstItem="Cpf-Ur-vqm" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" constant="-20" id="iaW-i2-vtj" userLabel="Safe Area.trailing = Stack View.trailing + 20"/>
                             <constraint firstItem="Cpf-Ur-vqm" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="pFy-bI-TeI" userLabel="Stack View.leading = Safe Area.leading + 20"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="Cpf-Ur-vqm" secondAttribute="bottom" constant="10" id="rEw-WE-t5Q" userLabel="Safe Area.bottom = Stack View.bottom + 10"/>
                             <constraint firstItem="Cpf-Ur-vqm" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="10" id="w4t-7h-iCN" userLabel="Stack View.top = Safe Area.top + 10"/>
+                            <constraint firstItem="1cZ-8S-sGe" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="zhd-At-ABQ"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="activityIndicator" destination="1cZ-8S-sGe" id="K9g-KL-kfM"/>
                         <outlet property="counterLabel" destination="wXm-dL-C4v" id="U1E-Tr-APZ"/>
                         <outlet property="imageView" destination="KtO-AB-SvM" id="nEZ-A3-8KC"/>
                         <outlet property="noButton" destination="8eo-6Z-GpL" id="vCg-7q-z2S"/>
