@@ -7,6 +7,10 @@
 
 import Foundation
 
+enum PictureError: Error {
+  case didNotLoad(String)
+}
+
 class QuestionFactory: QuestionFactoryProtocol {
     private let moviesLoader: MoviesLoading
     private weak var delegate: QuestionFactoryDelegate?
@@ -88,7 +92,11 @@ class QuestionFactory: QuestionFactoryProtocol {
             do {
                 imageData = try Data(contentsOf: movie.imageURL)
             } catch {
-                print("Failed to load image")
+                
+                DispatchQueue.main.async {
+                    self.delegate?.didFailToLoadData(with: PictureError.didNotLoad("failed to load the picture"))
+                }
+                return 
             }
                 
             let rating = Float(movie.rating) ?? 0
