@@ -49,11 +49,10 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         let alertModel = AlertModel(title: "Ошибка", message: message,
                                     buttonText: "Попробовать еще раз") { [weak self] _ in
                 guard let self = self else { return }
-                self.questionFactory?.loadData()
+                
                 self.currentQuestionIndex = 0
                 self.correctAnswers = 0
-                
-                self.questionFactory?.requestNextQuestion()
+                self.questionFactory?.loadData()
             }
             
         alertPresenter?.createAlert(alertModel: alertModel)
