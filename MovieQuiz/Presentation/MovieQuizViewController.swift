@@ -29,6 +29,8 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         
         setToZeros()
         
+        presenter.viewController = self
+        
         imageView.layer.masksToBounds = true
         imageView.layer.cornerRadius = 20
         
@@ -119,23 +121,17 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     }
     
     @IBAction private func yesButtonClicked(_ sender: UIButton) {
-        guard let currentQuestion = currentQuestion else {
-            return
-        }
-        let userAnswer = true
-        showAnswerResult(isCorrect: userAnswer == currentQuestion.correctAnswer)
+        presenter.currentQuestion = currentQuestion
+        presenter.yesButtonClicked()
     }
     
     @IBAction private func noButtonClicked(_ sender: UIButton) {
-        guard let currentQuestion = currentQuestion else {
-            return
-        }
-        let userAnswer = false
-        showAnswerResult(isCorrect: userAnswer == currentQuestion.correctAnswer)
+        presenter.currentQuestion = currentQuestion
+        presenter.noButtonClicked()
     }
 
     
-    private func showAnswerResult(isCorrect: Bool) {
+    func showAnswerResult(isCorrect: Bool) {
         if isCorrect {
             correctAnswers += 1
         }
