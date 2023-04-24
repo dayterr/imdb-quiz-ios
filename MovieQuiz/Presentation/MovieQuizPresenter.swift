@@ -12,8 +12,11 @@ final class MovieQuizPresenter {
     let questionsAmount: Int = 10
     var currentQuestionIndex: Int = 0
     
-    var currentQuestion: QuizQuestion?
     weak var viewController: MovieQuizViewController?
+    var correctAnswers: Int = 0
+    
+    var currentQuestion: QuizQuestion?
+    var questionFactory: QuestionFactoryProtocol?
     
     func convert(model: QuizQuestion) -> QuizStepViewModel {
         return QuizStepViewModel(
@@ -36,7 +39,29 @@ final class MovieQuizPresenter {
         }
             
         let givenAnswer = isYes
-            
         viewController?.showAnswerResult(isCorrect: givenAnswer == currentQuestion.correctAnswer)
+    }
+    
+    func didReceiveNextQuestion(question: QuizQuestion?) {
+        guard let question = question else {
+            return
+        }
+            
+        currentQuestion = question
+        let viewModel = convert(model: question)
+        DispatchQueue.main.async { [weak self] in
+            self?.viewController?.show(quiz: viewModel)
+        }
+    }
+    
+    func showNextQuestionOrResults() {
+        if currentQuestionIndex == questionsAmount - 1 {
+            viewController?.statisticsService?.store(correct: correctAnswers, total: questionsAmount)
+            viewController?.showEndAlert()
+        } else {
+            currentQuestionIndex += 1
+            viewController?.questionFactory?.requestNextQuestion()
+        }
+        
     }
 }

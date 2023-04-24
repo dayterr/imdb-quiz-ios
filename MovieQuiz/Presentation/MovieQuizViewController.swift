@@ -15,12 +15,12 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     
     private var correctAnswers: Int = 0
     
-    private var questionFactory: QuestionFactoryProtocol?
+    var questionFactory: QuestionFactoryProtocol?
     private var currentQuestion: QuizQuestion?
     
     private var alertModel: AlertModel?
     private var alertPresenter: ResultAlertPresenterProtocol?
-    private var statisticsService: StatisticServiceProtocol?
+    var statisticsService: StatisticServiceProtocol?
     
     private let presenter = MovieQuizPresenter()
     
@@ -60,7 +60,6 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         alertPresenter?.createAlert(alertModel: alertModel)
     }
     
-    
     func didLoadDataFromServer() {
         activityIndicator.stopAnimating()
         questionFactory?.requestNextQuestion()
@@ -70,17 +69,8 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         showNetworkError(message: error.localizedDescription)
     }
     
-    // MARK: - QuestionFactoryDelegate
     func didReceiveNextQuestion(question: QuizQuestion?) {
-        guard let question = question else {
-                return
-        }
-            
-        currentQuestion = question
-        let viewModel = presenter.convert(model: question)
-        DispatchQueue.main.async { [weak self] in
-                self?.show(quiz: viewModel)
-        }
+        presenter.didReceiveNextQuestion(question: question)
     }
     
     func showAlert(alert: UIAlertController?) {
@@ -121,12 +111,10 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     }
     
     @IBAction private func yesButtonClicked(_ sender: UIButton) {
-        presenter.currentQuestion = currentQuestion
         presenter.yesButtonClicked()
     }
     
     @IBAction private func noButtonClicked(_ sender: UIButton) {
-        presenter.currentQuestion = currentQuestion
         presenter.noButtonClicked()
     }
 
@@ -141,6 +129,7 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         
         imageView.layer.masksToBounds = true
         imageView.layer.borderWidth = 8
+        print("ku")
         imageView.layer.borderColor = isCorrect ? UIColor.ypGreen.cgColor : UIColor.ypRed.cgColor
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
@@ -149,23 +138,16 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
                 self?.yesButton.isEnabled = true
                 self?.noButton.isEnabled = true
             
-                self?.showNextQuestionOrResults()
+                self?.presenter.correctAnswers += 1
+                self?.presenter.questionFactory = self?.questionFactory
+            
+                self?.presenter.showNextQuestionOrResults()
         }
     }
     
-    private func showNextQuestionOrResults() {
-        if presenter.currentQuestionIndex == presenter.questionsAmount - 1 {
-            statisticsService?.store(correct: correctAnswers, total: presenter.questionsAmount)
-            showEndAlert()
-        } else {
-            presenter.currentQuestionIndex += 1
-            questionFactory?.requestNextQuestion()
-        }
+    func show(quiz step: QuizStepViewModel) {
         
-    }
-    
-    private func show(quiz step: QuizStepViewModel) {
-        textLabel.text = currentQuestion?.text
+        textLabel.text = presenter.currentQuestion?.text
         counterLabel.text = "\(presenter.currentQuestionIndex+1)/\(presenter.questionsAmount)"
         imageView.image = step.image
     }
