@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-final class MovieQuizPresenter {
+final class MovieQuizPresenter: QuestionFactoryDelegate {
     let questionsAmount: Int = 10
     var currentQuestionIndex: Int = 0
     
@@ -17,6 +17,23 @@ final class MovieQuizPresenter {
     
     var currentQuestion: QuizQuestion?
     var questionFactory: QuestionFactoryProtocol?
+    
+    init(viewController: MovieQuizViewController) {
+        self.viewController = viewController
+        
+        questionFactory = QuestionFactory(moviesLoader: MoviesLoader(), delegate: self)
+        questionFactory?.loadData()
+        viewController.showLoadingIndicator()
+    }
+    
+    func didLoadDataFromServer() {
+        viewController?.activityIndicator.stopAnimating()
+        questionFactory?.requestNextQuestion()
+    }
+    
+    func didFailToLoadData(with error: Error) {
+        viewController?.showNetworkError(message: error.localizedDescription)
+    }
     
     func convert(model: QuizQuestion) -> QuizStepViewModel {
         return QuizStepViewModel(
@@ -60,7 +77,7 @@ final class MovieQuizPresenter {
             viewController?.showEndAlert()
         } else {
             currentQuestionIndex += 1
-            viewController?.questionFactory?.requestNextQuestion()
+            questionFactory?.requestNextQuestion()
         }
         
     }
