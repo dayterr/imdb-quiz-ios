@@ -17,7 +17,6 @@ final class MovieQuizViewController: UIViewController{
     
     private var alertModel: AlertModel?
     private var alertPresenter: ResultAlertPresenterProtocol?
-    var statisticsService: StatisticServiceProtocol?
     
     private var presenter: MovieQuizPresenter!
     
@@ -33,7 +32,6 @@ final class MovieQuizViewController: UIViewController{
         
         activityIndicator.hidesWhenStopped = true
         
-        statisticsService = StatisticServiceImplementation()
         alertPresenter = ResultAlertPresenter(controller: self)
         
         showLoadingIndicator()
@@ -72,16 +70,12 @@ final class MovieQuizViewController: UIViewController{
     }
     
     func showEndAlert() {
-        let msg = """
-        Ваш результат: \(presenter.correctAnswers)/\(presenter.questionsAmount)
-        Количество сыгранных квизов: \(String(describing: statisticsService!.gamesCount))
-        Рекорд: \(String(describing: statisticsService!.bestGame.correct))/\(String(describing: statisticsService!.bestGame.total)) (\(String(describing: statisticsService!.bestGame.date.dateTimeString)))
-        Средняя точность: \(String(format: "%.2f", statisticsService!.totalAccuracy))%
-        """
+        
+        var message = presenter.makeResultsMessage()
         
         let alertModel = AlertModel(
             title: "Этот раунд окончен!",
-            message: msg,
+            message: message,
             buttonText: "Сыграть ещё раз",
             completion: { [weak self] _ in
                 self?.presenter.currentQuestionIndex = 0
@@ -100,27 +94,24 @@ final class MovieQuizViewController: UIViewController{
         presenter.noButtonClicked()
     }
 
-    
-    func showAnswerResult(isCorrect: Bool) {
-        if isCorrect {
-            presenter.correctAnswers += 1
-        }
-        
+    func deactivateButtons() {
         yesButton.isEnabled = false
         noButton.isEnabled = false
-        
+    }
+    
+    func highlightImageBorder(isCorrectAnswer: Bool) {
         imageView.layer.masksToBounds = true
         imageView.layer.borderWidth = 8
-        imageView.layer.borderColor = isCorrect ? UIColor.ypGreen.cgColor : UIColor.ypRed.cgColor
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
-                self?.imageView.layer.borderWidth = 0
-            
-                self?.yesButton.isEnabled = true
-                self?.noButton.isEnabled = true
-            
-                self?.presenter.showNextQuestionOrResults()
-        }
+        imageView.layer.borderColor = isCorrectAnswer ? UIColor.ypGreen.cgColor : UIColor.ypRed.cgColor
+    }
+    
+    func unsetImageBorder() {
+        imageView.layer.borderWidth = 0
+    }
+    
+    func activateButtons() {
+        yesButton.isEnabled = true
+        noButton.isEnabled = true
     }
     
     func show(quiz step: QuizStepViewModel) {

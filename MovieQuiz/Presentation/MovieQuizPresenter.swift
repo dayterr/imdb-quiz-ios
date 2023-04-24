@@ -18,9 +18,12 @@ final class MovieQuizPresenter: QuestionFactoryDelegate {
     var currentQuestion: QuizQuestion?
     var questionFactory: QuestionFactoryProtocol?
     
+    var statisticsService: StatisticServiceProtocol?
+    
     init(viewController: MovieQuizViewController) {
         self.viewController = viewController
         
+        statisticsService = StatisticServiceImplementation()
         questionFactory = QuestionFactory(moviesLoader: MoviesLoader(), delegate: self)
         questionFactory?.loadData()
         viewController.showLoadingIndicator()
@@ -56,7 +59,7 @@ final class MovieQuizPresenter: QuestionFactoryDelegate {
         }
             
         let givenAnswer = isYes
-        viewController?.showAnswerResult(isCorrect: givenAnswer == currentQuestion.correctAnswer)
+        proceedWithAnswer(isCorrect: givenAnswer == currentQuestion.correctAnswer)
     }
     
     func didReceiveNextQuestion(question: QuizQuestion?) {
@@ -73,12 +76,40 @@ final class MovieQuizPresenter: QuestionFactoryDelegate {
     
     func showNextQuestionOrResults() {
         if currentQuestionIndex == questionsAmount - 1 {
-            viewController?.statisticsService?.store(correct: correctAnswers, total: questionsAmount)
+            statisticsService?.store(correct: correctAnswers, total: questionsAmount)
             viewController?.showEndAlert()
         } else {
             currentQuestionIndex += 1
             questionFactory?.requestNextQuestion()
         }
         
+    }
+    
+    func makeResultsMessage() -> String {
+        let msg = """
+        Ваш результат: \(correctAnswers)/\(questionsAmount)
+        Количество сыгранных квизов: \(String(describing: statisticsService!.gamesCount))
+        Рекорд: \(String(describing: statisticsService!.bestGame.correct))/\(String(describing: statisticsService!.bestGame.total)) (\(String(describing: statisticsService!.bestGame.date.dateTimeString)))
+        Средняя точность: \(String(format: "%.2f", statisticsService!.totalAccuracy))%
+        """
+        
+        return msg
+    }
+    
+    func proceedWithAnswer(isCorrect: Bool) {
+        if isCorrect {
+            correctAnswers += 1
+        }
+        
+        viewController?.deactivateButtons()
+        viewController?.highlightImageBorder(isCorrectAnswer: isCorrect)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
+            guard let self = self else { return }
+            
+            self.viewController?.unsetImageBorder()
+            self.viewController?.activateButtons()
+            self.showNextQuestionOrResults()
+        }
     }
 }
