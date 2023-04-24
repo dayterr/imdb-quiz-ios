@@ -24,6 +24,8 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     private var alertPresenter: ResultAlertPresenterProtocol?
     private var statisticsService: StatisticServiceProtocol?
     
+    private let presenter = MovieQuizPresenter()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -75,7 +77,7 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         }
             
         currentQuestion = question
-        let viewModel = convert(model: question)
+        let viewModel = presenter.convert(model: question)
         DispatchQueue.main.async { [weak self] in
                 self?.show(quiz: viewModel)
         }
@@ -155,13 +157,6 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
             
                 self?.showNextQuestionOrResults()
         }
-    }
-    
-    private func convert(model: QuizQuestion) -> QuizStepViewModel {
-        return QuizStepViewModel(
-            image: UIImage(data: model.image) ?? UIImage(),
-            question: model.text,
-            questionNumber: "\(currentQuestionIndex + 1)/\(questionsAmount)")
     }
     
     private func showNextQuestionOrResults() {
