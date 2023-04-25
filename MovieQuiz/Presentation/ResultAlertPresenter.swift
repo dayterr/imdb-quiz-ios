@@ -30,6 +30,8 @@ class ResultAlertPresenter: ResultAlertPresenterProtocol {
             
         )
         
+        alert.view.accessibilityIdentifier = "Game results"
+        
         alert.addAction(action)
         
         self.controller?.present(alert, animated: true)
