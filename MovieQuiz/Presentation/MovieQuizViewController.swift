@@ -114,6 +114,10 @@ final class MovieQuizViewController: UIViewController, MovieQuizViewControllerPr
         noButton.isEnabled = true
     }
     
+    func turnOffActiviryIndicator() {
+        activityIndicator.stopAnimating()
+    }
+    
     func show(quiz step: QuizStepViewModel) {
         textLabel.text = presenter.currentQuestion?.text
         counterLabel.text = "\(presenter.currentQuestionIndex+1)/\(presenter.questionsAmount)"

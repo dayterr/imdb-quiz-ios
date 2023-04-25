@@ -12,7 +12,7 @@ final class MovieQuizPresenter: QuestionFactoryDelegate {
     let questionsAmount: Int = 10
     var currentQuestionIndex: Int = 0
     
-    weak var viewController: MovieQuizViewController?
+    weak var viewController: MovieQuizViewControllerProtocol?
     var correctAnswers: Int = 0
     
     var currentQuestion: QuizQuestion?
@@ -20,7 +20,7 @@ final class MovieQuizPresenter: QuestionFactoryDelegate {
     
     var statisticsService: StatisticServiceProtocol?
     
-    init(viewController: MovieQuizViewController) {
+    init(viewController: MovieQuizViewControllerProtocol) {
         self.viewController = viewController
         
         statisticsService = StatisticServiceImplementation()
@@ -30,7 +30,7 @@ final class MovieQuizPresenter: QuestionFactoryDelegate {
     }
     
     func didLoadDataFromServer() {
-        viewController?.activityIndicator.stopAnimating()
+        viewController?.turnOffActiviryIndicator()
         questionFactory?.requestNextQuestion()
     }
     

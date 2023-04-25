@@ -33,6 +33,23 @@ final class MovieQuizViewControllerMock: MovieQuizViewControllerProtocol {
     func showNetworkError(message: String) {
     
     }
+    
+    func showEndAlert() {
+        
+    }
+    
+    func deactivateButtons(){
+        
+    }
+    func unsetImageBorder(){
+        
+    }
+    func activateButtons(){
+        
+    }
+    func turnOffActiviryIndicator(){
+        
+    }
 }
 
 final class MovieQuizPresenterTests: XCTestCase {

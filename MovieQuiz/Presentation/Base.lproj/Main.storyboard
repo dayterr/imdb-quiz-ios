@@ -125,7 +125,7 @@
                             </activityIndicatorView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
-                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" name="black"/>
                         <constraints>
                             <constraint firstItem="1cZ-8S-sGe" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="PM4-cx-9ez"/>
                             <constraint firstItem="Cpf-Ur-vqm" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" constant="-20" id="iaW-i2-vtj" userLabel="Safe Area.trailing = Stack View.trailing + 20"/>

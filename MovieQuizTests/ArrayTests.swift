@@ -9,9 +9,9 @@ import Foundation
 import XCTest
 @testable import MovieQuiz
 
-class ArrayTests: XCTestCase {
+final class ArrayTests: XCTestCase {
     func testGetValueInRange() throws {
-        let array = [1, 1, 2, 3, 5]
+        let array = [1, 7, 2, 3, 5]
             
         let value = array[safe: 3]
             
@@ -20,7 +20,7 @@ class ArrayTests: XCTestCase {
     }
     
     func testGetValueOutOfRange() throws {
-        let array = [1, 1, 2, 3, 5]
+        let array = [1, 7, 2, 3, 5]
         
         let value = array[safe: 21]
         
